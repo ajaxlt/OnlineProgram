@@ -1,28 +1,24 @@
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 /*
  * 来源: LeetCode
- * 题目: Z 字形变换(Longest Palindromic Substring)
+ * 题目: Z 字形变换(ZigZag Conversion)
  *
  * 描述:
  * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列
  * 比如输入字符串为 "LEETCODEISHIRING" 行数为 3 时，排列如下：
+ * L   C   I   R
+ * E T O E S I I G
+ * E   D   H   N
  *
- * 示例 1：
- * 输入: "babad"
- * 输出: "bab"
- * 注意: "aba" 也是一个有效答案。
- *
- * 示例 2：
- * 输入: "cbbd"
- * 输出: "bb"
+ * 之后，你的输出需要从左往右逐行读取，产生出一个新的字符串
+ * 即 "LCIRETOESIIGEDHN"
  *
  *
  * 思路:
- * 中心扩展法
- * 1. 外层遍历整个字符串
- * 2. 针对与每个字符，以奇偶情况，分别进行中心扩展
+ * 数学题，找规律
 */
 
 class Solution {
