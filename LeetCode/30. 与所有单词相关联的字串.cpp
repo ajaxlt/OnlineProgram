@@ -1,11 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
 using namespace std;
 /*
  * 来源: LeetCode
- * 题目: 与所有单词相关联的字串(Implement strStr())
+ * 题目: 与所有单词相关联的字串(Substring with Concatenation of All Words)
  *
  * 描述:
  * 给定一个字符串 s 和一些长度相同的单词 words。在 s 中找出可以恰好串联 words 中所有单词的子串的起始位置
