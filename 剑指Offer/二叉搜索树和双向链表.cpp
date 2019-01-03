@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <map>
 using namespace std;
@@ -17,9 +17,26 @@ using namespace std;
  * 3. 访问其右儿子
  *
 */
-int main() {
-    char* a = "adsf";
-    //a += "df";
-    cout << a << endl;
-    return 0
-}
+class Solution {
+public:
+    void ConvertNode(TreeNode* pNode)
+    {
+        if (!pNode) return;
+        ConvertNode(pNode -> left);     
+        
+        pNode -> left = tail;
+        if (tail) tail -> right = pNode;
+        else head = pNode; // 当head为null时，此是刚遇到头
+        tail = pNode;
+        
+        ConvertNode(pNode -> right); 
+    }
+    TreeNode* Convert(TreeNode* pRoot)
+    {
+        ConvertNode(pRoot);
+        return head;
+    }
+private:
+    TreeNode* head = nullptr;
+    TreeNode* tail = nullptr;
+};
