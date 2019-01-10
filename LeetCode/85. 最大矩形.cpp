@@ -19,20 +19,19 @@ using namespace std;
 
 class Solution {
 public:
-    int largestRectangleArea(const vector<int>& heights) {
+    int largestRectangleArea(vector<int>& heights) {
         int len = heights.size();
         if (len == 0) return 0;
+
         stack<int> index;
         int ans = heights[0];
+        heights.push_back(-1);
         for (int i = 0; i < len + 1; ++i) {
-            while(i == len || !index.empty() && heights[i] < heights[index.top()]) {
+            while(!index.empty() && heights[i] < heights[index.top()]) {
                 int cur_i = index.top();
                 index.pop();
-                int cur_area;
-                if (index.empty()) cur_area = i * heights[cur_i];
-                else cur_area = (i - index.top() - 1) * heights[cur_i];
+                int cur_area = heights[cur_i] * (index.empty() ? i : i - index.top() - 1);
                 ans = max(ans, cur_area);
-                if (index.empty()) break;
             }
             index.push(i);
         }
