@@ -49,26 +49,21 @@ using namespace std;
 */
 class Solution {
 public:
-    string simplifyPath(string path) {
-        stack<string> dir;
-        int i = 0;
-        while (path[i] == '/') ++i;
-        int j = i;
-        while (i < path.size()) {
-            while(path[j] != '/') ++j;
-            string cur = path.substr(i, j - i);
-            if (cur == ".." && !dir.empty()) dir.pop();
-            else if (cur != "." && cur != "..") dir.push(cur);
-            while(path[j] == '/' && j < path.size()) ++j;
-            i = j;
+    int minDistance(string word1, string word2) {
+        int len1 = word1.size(), len2 = word2.size();
+        if (len1 == 0 || len2 == 0) return len1 + len2;
+
+        vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
+        for (int i = 1; i <= len1; ++i) dp[i][0] = i;
+        for (int j = 1; j <= len2; ++j) dp[0][j] = j;
+
+        for (int i = 1; i <= len1; ++i) {
+            for (int j = 1; j <= len2; ++j) {
+                int tar1 = 1 + min(dp[i][j - 1], dp[i - 1][j]);
+                int tar2 = word1[i - 1] == word2[j - 1] ? dp[i - 1][j - 1] : dp[i - 1][j - 1] + 1;
+                dp[i][j] = min(tar1, tar2);
+            }
         }
-        string ans = "";
-        if (dir.empty()) return "/";
-        while(!dir.empty())
-        {
-            ans = "/" + dir.top() + ans;
-            dir.pop();
-        }
-        return ans;
+        return dp[len1][len2];
     }
 };
