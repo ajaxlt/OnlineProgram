@@ -1,8 +1,7 @@
 //
 //  1. 两数之和.swift
 //
-//  Created by ajaxlt on 2017/9/22.
-//  Copyright © 2017年 ajaxlt. All rights reserved.
+//  Copyright © 2019年 ajaxlt. All rights reserved.
 //
 
 import Foundation
