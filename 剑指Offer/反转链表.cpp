@@ -1,39 +1,49 @@
 #include <iostream>
-#include <vector>
+#include <string.h>
+#include <string>
 using namespace std;
 /*
- * À´Ô´: ½£Ö¸Offer
- * ÌâÄ¿: ·´×ªÁ´±í
+ * æ¥æº: å‰‘æŒ‡Offer
+ * é¢˜ç›®: åè½¬é“¾è¡¨
  *
- * ÃèÊö: ÊäÈëÒ»¸öÁ´±í£¬·´×ªÁ´±íºó£¬Êä³öÐÂÁ´±íµÄ±íÍ·¡£
- *
- * Ë¼Â·:
- * A -> B -> C
- * Èç¹ûÖ±½Ó A <- B£¬ÄÇÃ´ B Óë C Ö®¼äµÄÁ¬½Ó»á¶ÏÁÑ
- * Òò´ËÐèÒªÒ»¸öpNextÓÃÓÚÏÖ½« C ±£´æÏÂÀ´
- * ´ËÍâ£¬»¹ÐèÒªÒ»¸öpPrev±£´æÇ°Çý½áµã
- *
+ * æ€è·¯:
+ * 1. å¤´æ’æ³•
+ * 2. ç®­å¤´åå‘
 */
-struct ListNode {
-	int val;
-	struct ListNode *next;
-	ListNode(int x) : val(x), next(NULL) {
-	}
-};
-class Solution {
+
+//1. å¤´æ’æ³•ï¼Œæ¯æ¬¡æŠŠä¸‹ä¸€ä¸ªç»“ç‚¹æ”¾åˆ°å¤´éƒ¨
+class Solution1 {
 public:
     ListNode* ReverseList(ListNode* pHead) {
-        if (!pHead || !pHead -> next) return pHead;
-        ListNode* pNext = nullptr;
-        ListNode* pPrev = nullptr;
-        while(pHead -> next) {
-            pNext = pHead -> next; //´æ×¡ÏÂÒ»¸ö
-            pHead -> next = pPrev; //·´×ª
-            // Ö¸ÕëÇ°½ø
-            pPrev = pHead;
-            pHead = pNext;
+        if (pHead == nullptr || pHead->next == nullptr) return pHead;
+        ListNode* dummy = new ListNode(0);
+        dummy->next = pHead;
+        while(pHead->next != nullptr) {
+            ListNode* next = pHead->next;
+            ListNode* nnext = next->next;
+            ListNode* head = dummy->next;
+            next->next = head;
+            dummy->next = next;
+            pHead->next = nnext;
         }
-        pHead -> next = pPrev; //×îºóÒ»¸öÊÖ¶¯
+        return dummy->next;
+    }
+};
+//2. ç®­å¤´åå‘
+class Solution2 {
+public:
+    ListNode* ReverseList(ListNode* pHead) {
+        if (pHead == nullptr || pHead->next == nullptr) return pHead;
+        ListNode* prev = nullptr;
+        ListNode* next = nullptr;
+        while(pHead->next != nullptr) {
+            next = pHead->next;
+            pHead->next = prev;
+            
+            prev = pHead;
+            pHead = next;
+        }
+        pHead->next = prev;
         return pHead;
     }
 };

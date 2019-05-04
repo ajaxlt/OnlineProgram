@@ -23,28 +23,15 @@ struct TreeNode {
 };
 class Solution {
 public:
-    bool isSubEqual(TreeNode* pRoot1, TreeNode* pRoot2)
-    {
-        if (!pRoot2) return true;
-        if (!pRoot1) return false;
-        if (pRoot1 -> val == pRoot2 -> val)
-            return isSubEqual(pRoot1 -> left, pRoot2 -> left) && isSubEqual(pRoot1 -> right, pRoot2 -> right);
-        else
-            return false;
+    bool helper(TreeNode* root1, TreeNode* root2) {
+        if (root1 == nullptr) return root2 == nullptr;
+        if (root2 == nullptr) return true;
+        if (root1 -> val == root2 -> val) return helper(root1->left, root2->left) && helper(root1->right, root2->right);
+        else return false;
     }
-    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
-    {
-        if (!pRoot1 || !pRoot2) return false; //空树不是任意数的子结构
-        bool flag = false;
-        if (pRoot1 -> val == pRoot2 -> val){
-            flag = isSubEqual(pRoot1, pRoot2);
-        }
-        if (!flag) { //如果头不匹配
-            flag = HasSubtree(pRoot1 -> left, pRoot2);
-        }
-        if (!flag) { //如果左儿子也不匹配，那再试试右儿子
-            flag = HasSubtree(pRoot1 -> right, pRoot2);
-        }
-        return flag;
+    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2){
+        if (pRoot1 == nullptr || pRoot2 == nullptr) return false;
+        if (helper(pRoot1, pRoot2)) return true;
+        else return HasSubtree(pRoot1->left, pRoot2) || HasSubtree(pRoot1->right, pRoot2);
     }
 };

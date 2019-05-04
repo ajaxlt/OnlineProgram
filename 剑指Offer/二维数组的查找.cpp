@@ -12,12 +12,15 @@ using namespace std;
 class Solution {
 public:
     bool Find(int target, vector<vector<int> > array) {
-        if (array.empty()) return -1;
-        int x = array.size() - 1, y = 0;
-        while (x >= 0 && y < array[0].size()) {
-            if (target == array[x][y]) return true;
-            else if (target < array[x][y]) --x;
-            else ++y;
+        int rows = array.size();
+        if (rows == 0) return false;
+        int cols = array[0].size();
+        if (cols == 0) return false;
+        int i = rows - 1, j = 0;
+        while(i >= 0 && j < cols) {
+            if (array[i][j] > target) --i;
+            else if (array[i][j] < target) ++j;
+            else return true;
         }
         return false;
     }

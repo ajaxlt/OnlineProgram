@@ -12,25 +12,20 @@ using namespace std;
  *
  * 思路:
  * 考虑左单调还是右单调
+ * 
+ * 向下取整导致死循环，最后保留两个
 */
 class Solution {
 public:
-    int findMin(vector<int> a, int head, int tail) {
-        if (head == tail) return a[head];
-
-        int mid = (head + tail) / 2;
-        if (a[mid] >= a[head]) {
-            //左单调
-            return min(a[head], findMin(a, mid + 1, tail));
-        } else {
-            //右单调
-            if (mid == head)
-                return a[mid];
-            else
-                return min(a[mid], findMin(a, head, mid - 1));
+    int minNumberInRotateArray(vector<int> a) {
+        int len = a.size();
+        if (len == 0) return 0;
+        int head = 0, tail = len - 1;
+        while(head + 1 < tail) {
+            int mid = (head + tail) / 2;
+            if (a[mid] < a[tail]) tail = mid;
+            else head = mid;
         }
-    }
-    int minNumberInRotateArray(vector<int> rotateArray) {
-        return findMin(rotateArray, 0, rotateArray.size() - 1);
+        return min(a[head], a[tail]);
     }
 };

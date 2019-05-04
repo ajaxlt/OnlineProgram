@@ -10,24 +10,18 @@ using namespace std;
  * 1. 特殊输入的处理
  * 2. 分治
 */
+const double eps = 1e-7;
 class Solution {
 public:
     double Power(double base, int exponent) {
-        //1. 若指数为0
-        if (exponent == 0) {
-            //1.1 0^0 无意义
-            if (base == 0) throw ("Invalid Input");
-            else return 1;
+        if (exponent == 0) return 1;
+        else if (abs(base - 1) < eps) return 1;
+        else if (exponent == 1) return base;
+        else {
+            if (exponent < 0) base = 1 / base, exponent = -exponent;
+            double ans = Power(base, exponent / 2);
+            if (exponent % 2 == 0) return ans * ans;
+            else return ans * ans * base;
         }
-        //2. 若指数为负， 则转换为正数
-        if (exponent < 0) {
-            exponent = -exponent;
-            base = 1 / base;
-        }
-        //3. 设置边界，分治解之
-        if (exponent == 1) return base;
-        double binaryResult = Power(base, exponent / 2);
-        if (exponent % 2 ==  0) return binaryResult * binaryResult;
-        else return base * binaryResult * binaryResult;
     }
 };

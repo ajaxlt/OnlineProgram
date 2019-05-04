@@ -19,17 +19,15 @@ struct ListNode {
 };
 class Solution {
 public:
-    vector<int> printListFromTailToHead(ListNode* head) {
-        vector<int> rlt;
-        stack<ListNode*> tmp;
-        while(head) {
-            tmp.push(head);
-            head = head -> next;
-        }
-        while(!tmp.empty()) {
-            rlt.push_back(tmp.top() -> val);
-            tmp.pop();
-        }
-        return rlt;
+    void helper(ListNode* head) {
+        if (head == nullptr) return;
+        helper(head->next);
+        ans.push_back(head->val);
     }
+    vector<int> printListFromTailToHead(ListNode* head) {
+        helper(head);
+        return ans;
+    }
+private:
+    vector<int> ans;
 };

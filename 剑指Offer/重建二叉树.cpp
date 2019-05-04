@@ -22,7 +22,6 @@ using namespace std;
  * 递归
 */
 
-//Definition for binary tree
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -32,38 +31,30 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* reConstructCore(vector<int> pre,
-                              vector<int> vin,
-                              int pre_beg,
-                              int pre_end,
-                              int vin_beg,
-                              int vin_end) {
-        int root_val = pre[pre_beg]; // 前序的首个必然是根节点
-        TreeNode* root = new TreeNode(root_val);// 初始化根节点
-
-        // 递归终点
-        if(pre_beg == pre_end) { // 只有一个元素时，判断合法性
-            if (vin_beg == vin_end && pre[pre_beg] == vin[vin_beg])
-                return root;
-            else throw ("Invalid input.");
-        }
-        // 若不是终点，则找根节点在中序的位置
-        int vin_root = vin_beg;
-        for (; vin_root <= vin_end && vin[vin_root] != root -> val; ++vin_root);
-        if (vin_root == vin_end && vin[vin_root] != root -> val)
-            throw ("Invalid input.");
-
-        //左右分离
-        int leftLength = vin_root - vin_beg;
-        int rightLength = vin_end - vin_root;
-        if (leftLength > 0)
-            root -> left = reConstructCore(pre, vin, pre_beg + 1, pre_beg + leftLength, vin_root - leftLength, vin_root - 1);
-        if (rightLength > 0)
-            root -> right = reConstructCore(pre, vin, pre_beg + leftLength + 1, pre_end, vin_root + 1, vin_end);
+    /**
+    * @param[in] pre: 前序遍历
+    * @param[in] vin: 中序遍历
+    * @param[in] l1: 前序遍历左端点(闭)
+    * @param[in] r1: 前序遍历右端点(闭)
+    * @param[in] l2: 中序遍历左端点(闭)
+    * @param[in] r2: 中序遍历右端点(闭)
+    */
+    TreeNode* reConstructBinaryTree(vector<int>& pre, vector<int>& vin, 
+                                    int l1, int r1, int l2, int r2) {
+        if (l1 > r1) return nullptr;
+        // 前序遍历的起点一定是 根
+        TreeNode* root = new TreeNode(pre[l1]);
+        int i = l2; // 从中序遍历的左端点开始寻找
+        while(vin[i] != pre[l1]) ++i; // 寻找根结点在中序遍历的下标
+        // 对数组切片处理
+        root->left = reConstructBinaryTree(pre, vin, l1 + 1, l1 + i - l2, l2, i - 1);
+        root->right = reConstructBinaryTree(pre, vin, l1 + i - l2 + 1, r1, i + 1, r2);
         return root;
+        
     }
-    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
-        if (pre.empty() || vin.empty()) return nullptr;
-        else return reConstructCore(pre, vin, 0, pre.size() - 1, 0, vin.size() - 1);
+    TreeNode* reConstructBinaryTree(vector<int>& pre, vector<int>& vin) {
+        int len1 = pre.size(), len2 = vin.size();
+        if (len1 != len2) return nullptr;
+        return reConstructBinaryTree(pre, vin, 0, len1 - 1, 0, len2 - 1);
     }
 };
